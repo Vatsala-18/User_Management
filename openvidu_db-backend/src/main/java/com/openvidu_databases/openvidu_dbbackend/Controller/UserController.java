@@ -29,7 +29,6 @@ public class UserController {
     @GetMapping("/getAll")
     public List<UserEntity> getAllCustomers() {
         logger.info("Request received");
-
         return userService.getAllUsers();
     }
 

@@ -15,7 +15,6 @@ public class UserService {
     private UserRepository userRepository;
     private static final Logger logger= LoggerFactory.getLogger(UserService.class);
     public List<UserEntity> getAllUsers() {
-
         List<UserEntity> userDatas=userRepository.findAll();
         logger.info("User data {}",userDatas);
         for(UserEntity userData:userDatas){
