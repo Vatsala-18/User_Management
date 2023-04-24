@@ -15,10 +15,11 @@ public class UserService {
     private UserRepository userRepository;
     private static final Logger logger= LoggerFactory.getLogger(UserService.class);
     public List<UserEntity> getAllUsers() {
-        List<UserEntity> userDatas=userRepository.findAll();
+        /*List<UserEntity> userDatas=userRepository.findAll();
         logger.info("User data {}",userDatas);
         for(UserEntity userData:userDatas){
-            logger.info("User id {},Address {}",userData.getUser_id(),userData.getAddress());}
+            logger.info("User id {},Address {}",userData.getUser_id(),userData.getAddress());}*/
+
         return userRepository.findAll();
     }
 
@@ -28,6 +29,7 @@ public class UserService {
     }
 
     public UserEntity createUser(UserEntity user) {
+        logger.info("User details {}",user.toString());
         return userRepository.save(user);
     }
 
@@ -35,7 +37,7 @@ public class UserService {
         UserEntity user = userRepository.findById(id)
                 .orElse(null);
 
-        user.setUserfname(userDetails.getUserfname());
+       // user.setUserfname(userDetails.getUserfname());
         user.setEmail(userDetails.getEmail());
 
         return userRepository.save(user);

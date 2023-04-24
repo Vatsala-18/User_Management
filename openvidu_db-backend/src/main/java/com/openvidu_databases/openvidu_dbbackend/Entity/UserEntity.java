@@ -13,187 +13,263 @@ import javax.persistence.*;
 @Table(name = "user_details")
 public class UserEntity {
 
+    @Column(name = "user_id")
+    private String userId;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String user_id;
-
     @Column(name = "user_code")
-    private int user_code;
+    private int userCode;
 
     @Column(name = "user_fname")
-    private String user_fname;
+    private String userFname;
 
-    @Column
-    private String user_lname;
+    @Column(name = "user_lname")
+    private String userLname;
 
-    @Column
+    @Column(name = "email")
     private String email;
 
-    @Column
+    @Column(name = "mobile")
     private String mobile;
 
-    @Column
+    @Column(name = "address")
     private String address;
 
-    @Column
-    private String user_password;
+    @Column(name = "user_password")
+    private String userPassword;
 
-    @Column
-    private String group_permission;
+    @Column(name = "group_permission")
+    private String groupPermission;
 
-    @Column
-    private String user_type;
+    @Column(name = "user_type")
+    private String userType;
 
-    @Column
-    private String service_type;
+    @Column(name = "service_type")
+    private String serviceType;
 
-    @Column
-    private String parent_id;
+    @Column(name = "parent_id")
+    private String parentId;
 
-    @Column
-    private int parent_code;
+    @Column(name = "parent_code")
+    private int parentCode;
 
-    @Column
-    private int max_users;
+    @Column(name = "max_users")
+    private int maxUsers;
 
-    @Column
-    private int max_participants;
+    @Column(name = "max_participants")
+    private int maxParticipants;
 
-    @Column
-    private int active_sessions;
+    @Column(name = "active_sessions")
+    private int activeSessions;
 
-    @Column
-    private int max_duration;
+    @Column(name = "max_duration")
+    private int maxDuration;
 
-    @Column
-    private LocalDateTime creation_date;
+    @Column(name = "creation_date")
+    private LocalDateTime creationDate;
 
-    @Column
-    private LocalDateTime last_login;
+    @Column(name = "last_login")
+    private LocalDateTime lastLogin;
 
-    @Column
-    private LocalDateTime acc_exp_date;
+    @Column(name = "acc_exp_date")
+    private LocalDateTime accExpDate;
 
-    @Column
-    private String acc_status;
+    @Column(name = "acc_status")
+    private String accStatus;
 
+    public String getUserId() {
+        return userId;
+    }
 
-    public String getUser_id() { return user_id; }
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
-    public void setUser_id(String user_id) { this.user_id = user_id; }
+    public int getUserCode() {
+        return userCode;
+    }
 
-    public String getEmail() { return email; }
+    public void setUserCode(int userCode) {
+        this.userCode = userCode;
+    }
 
-    public void setEmail(String email) { this.email = email; }
+    public String getUserFname() {
+        return userFname;
+    }
 
-    public String getUserfname() { return user_fname; }
+    public void setUserFname(String userFname) {
+        this.userFname = userFname;
+    }
 
-    public void setUserfname(String username) { this.user_fname = username; }
+    public String getUserLname() {
+        return userLname;
+    }
 
-    public String getPassword() { return user_password; }
+    public void setUserLname(String userLname) {
+        this.userLname = userLname;
+    }
 
-    public void setPassword(String password) { this.user_password = password; }
+    public String getEmail() {
+        return email;
+    }
 
-    public int getUser_code() { return user_code; }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-    public void setUser_code(int user_code) { this.user_code = user_code; }
+    public String getMobile() {
+        return mobile;
+    }
 
-    public String getUser_fname() { return user_fname; }
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
 
-    public void setUser_fname(String user_fname) { this.user_fname = user_fname; }
+    public String getAddress() {
+        return address;
+    }
 
-    public String getUser_lname() { return user_lname; }
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
-    public void setUser_lname(String user_lname) { this.user_lname = user_lname; }
+    public String getUserPassword() {
+        return userPassword;
+    }
 
-    public String getMobile() { return mobile; }
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
+    }
 
-    public void setMobile(String mobile) { this.mobile = mobile; }
+    public String getGroupPermission() {
+        return groupPermission;
+    }
 
-    public String getAddress() { return address; }
+    public void setGroupPermission(String groupPermission) {
+        this.groupPermission = groupPermission;
+    }
 
-    public void setAddress(String address) { this.address = address; }
+    public String getUserType() {
+        return userType;
+    }
 
-    public String getUser_password() { return user_password; }
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
 
-    public void setUser_password(String user_password) { this.user_password = user_password; }
+    public String getServiceType() {
+        return serviceType;
+    }
 
-    public String getGroup_permission() { return group_permission; }
+    public void setServiceType(String serviceType) {
+        this.serviceType = serviceType;
+    }
 
-    public void setGroup_permission(String group_permission) { this.group_permission = group_permission; }
+    public String getParentId() {
+        return parentId;
+    }
 
-    public String getUser_type() { return user_type; }
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
+    }
 
-    public void setUser_type(String user_type) { this.user_type = user_type; }
+    public int getParentCode() {
+        return parentCode;
+    }
 
-    public String getService_type() { return service_type; }
+    public void setParentCode(int parentCode) {
+        this.parentCode = parentCode;
+    }
 
-    public void setService_type(String service_type) { this.service_type = service_type; }
+    public int getMaxUsers() {
+        return maxUsers;
+    }
 
-    public String getParent_id() { return parent_id; }
+    public void setMaxUsers(int maxUsers) {
+        this.maxUsers = maxUsers;
+    }
 
-    public void setParent_id(String parent_id) { this.parent_id = parent_id; }
+    public int getMaxParticipants() {
+        return maxParticipants;
+    }
 
-    public int getParent_code() { return parent_code; }
+    public void setMaxParticipants(int maxParticipants) {
+        this.maxParticipants = maxParticipants;
+    }
 
-    public void setParent_code(int parent_code) { this.parent_code = parent_code; }
+    public int getActiveSessions() {
+        return activeSessions;
+    }
 
-    public int getMax_users() { return max_users; }
+    public void setActiveSessions(int activeSessions) {
+        this.activeSessions = activeSessions;
+    }
 
-    public void setMax_users(int max_users) { this.max_users = max_users; }
+    public int getMaxDuration() {
+        return maxDuration;
+    }
 
-    public int getMax_participants() { return max_participants; }
+    public void setMaxDuration(int maxDuration) {
+        this.maxDuration = maxDuration;
+    }
 
-    public void setMax_participants(int max_participants) { this.max_participants = max_participants; }
+    public LocalDateTime getCreationDate() {
+        return creationDate;
+    }
 
-    public int getActive_sessions() { return active_sessions; }
+    public void setCreationDate(LocalDateTime creationDate) {
+        this.creationDate = creationDate;
+    }
 
-    public void setActive_sessions(int active_sessions) { this.active_sessions = active_sessions; }
+    public LocalDateTime getLastLogin() {
+        return lastLogin;
+    }
 
-    public int getMax_duration() { return max_duration; }
+    public void setLastLogin(LocalDateTime lastLogin) {
+        this.lastLogin = lastLogin;
+    }
 
-    public void setMax_duration(int max_duration) { this.max_duration = max_duration; }
+    public LocalDateTime getAccExpDate() {
+        return accExpDate;
+    }
 
-    public LocalDateTime getCreation_date() { return creation_date; }
+    public void setAccExpDate(LocalDateTime accExpDate) {
+        this.accExpDate = accExpDate;
+    }
 
-    public void setCreation_date(LocalDateTime creation_date) { this.creation_date = creation_date; }
+    public String getAccStatus() {
+        return accStatus;
+    }
 
-    public LocalDateTime getLast_login() { return last_login; }
-
-    public void setLast_login(LocalDateTime last_login) { this.last_login = LocalDateTime.now(); }
-
-    public LocalDateTime getAcc_exp_date() { return acc_exp_date; }
-
-    public void setAcc_exp_date(LocalDateTime acc_exp_date) { this.acc_exp_date = LocalDateTime.now().plusYears(1); }
-
-    public String getAcc_status() { return acc_status; }
-
-    public void setAcc_status(String acc_status) { this.acc_status = acc_status; }
+    public void setAccStatus(String accStatus) {
+        this.accStatus = accStatus;
+    }
 
     @Override
     public String toString() {
         return "UserEntity{" +
-                "user_id='" + user_id + '\'' +
-                ", user_code=" + user_code +
-                ", user_fname='" + user_fname + '\'' +
-                ", user_lname='" + user_lname + '\'' +
+                "user_id='" + userId + '\'' +
+                ", user_code=" + userCode +
+                ", user_fname='" + userFname + '\'' +
+                ", user_lname='" + userLname + '\'' +
                 ", email='" + email + '\'' +
                 ", mobile='" + mobile + '\'' +
                 ", address='" + address + '\'' +
-                ", user_password='" + user_password + '\'' +
-                ", group_permission='" + group_permission + '\'' +
-                ", user_type='" + user_type + '\'' +
-                ", service_type='" + service_type + '\'' +
-                ", parent_id='" + parent_id + '\'' +
-                ", parent_code=" + parent_code +
-                ", max_users=" + max_users +
-                ", max_participants=" + max_participants +
-                ", active_sessions=" + active_sessions +
-                ", max_duration=" + max_duration +
-                ", creation_date=" + creation_date +
-                ", last_login=" + last_login +
-                ", acc_exp_date=" + acc_exp_date +
-                ", acc_status='" + acc_status + '\'' +
+                ", user_password='" + userPassword + '\'' +
+                ", group_permission='" + groupPermission + '\'' +
+                ", user_type='" + userType + '\'' +
+                ", service_type='" + serviceType + '\'' +
+                ", parent_id='" + parentId + '\'' +
+                ", parent_code=" + parentCode +
+                ", max_users=" + maxUsers +
+                ", max_participants=" + maxParticipants +
+                ", active_sessions=" + activeSessions +
+                ", max_duration=" + maxDuration +
+                ", creation_date=" + creationDate +
+                ", last_login=" + lastLogin +
+                ", acc_exp_date=" + accExpDate +
+                ", acc_status='" + accStatus + '\'' +
                 '}';
     }
 }

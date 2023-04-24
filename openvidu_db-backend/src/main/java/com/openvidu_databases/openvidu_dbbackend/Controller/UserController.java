@@ -39,6 +39,7 @@ public class UserController {
 
     @PostMapping("/create")
     public UserEntity createUser(@RequestBody UserEntity user) {
+        logger.info(String.valueOf(user));
         return userService.createUser(user);
     }
 

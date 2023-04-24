@@ -27,29 +27,29 @@ public class UserAuthEntity {
     private LocalDateTime creation_date;
 
 
-    public String getUser_id() { return user_id; }
+    public String getUserId() { return user_id; }
 
-    public void setUser_id(String user_id) { this.user_id = user_id; }
+    public void setUserId(String user_id) { this.user_id = user_id; }
 
     public String getUsername() { return username; }
 
     public void setUsername(String username) { this.username = username; }
 
-    public String getUser_password() { return user_password; }
+    public String getUserPassword() { return user_password; }
 
-    public void setUser_password(String user_password) { this.user_password = user_password; }
+    public void setUserPassword(String user_password) { this.user_password = user_password; }
 
-    public String getUser_type() { return user_type; }
+    public String getUserType() { return user_type; }
 
-    public void setUser_type(String user_type) { this.user_type = user_type; }
+    public void setUserType(String user_type) { this.user_type = user_type; }
 
     public String getToken() { return token; }
 
     public void setToken(String token) { this.token = token; }
 
-    public LocalDateTime getCreation_date() { return creation_date; }
+    public LocalDateTime getCreationDate() { return creation_date; }
 
-    public void setCreation_date(LocalDateTime creation_date) { this.creation_date = creation_date; }
+    public void setCreationDate(LocalDateTime creation_date) { this.creation_date = creation_date; }
 
 
 
