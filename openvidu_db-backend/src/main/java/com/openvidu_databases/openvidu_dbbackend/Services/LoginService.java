@@ -20,11 +20,11 @@ public class LoginService {
 
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestParam String username, @RequestParam String password) {
-        UserAuthEntity user = userAuthRepository.findByUsername(username);
+    public ResponseEntity<String> login(@RequestParam String userName, @RequestParam String password) {
+        UserAuthEntity user = userAuthRepository.findByUserName(userName);
 
         if (user != null && user.getUserPassword().equals(password)) {
-            String token = generateToken(username);
+            String token = generateToken(userName);
             user.setToken(token);
             userAuthRepository.save(user);
             return ResponseEntity.ok(token);

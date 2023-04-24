@@ -23,6 +23,17 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public List<UserEntity> getAllChild(String id) {
+        /*List<UserEntity> userDatas=userRepository.findAll();
+        logger.info("User data {}",userDatas);
+        for(UserEntity userData:userDatas){
+            logger.info("User id {},Address {}",userData.getUser_id(),userData.getAddress());}*/
+
+         return userRepository.findAllChild(id);
+    }
+
+
+
     public UserEntity getUserById(String id) {
         return userRepository.findById(id)
                 .orElse(null);

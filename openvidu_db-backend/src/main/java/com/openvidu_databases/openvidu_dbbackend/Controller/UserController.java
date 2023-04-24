@@ -32,6 +32,11 @@ public class UserController {
         return userService.getAllUsers();
     }
 
+    @GetMapping("/child/{id}")
+    public List<UserEntity> getAllChildById(@PathVariable String id) {
+        return userService.getAllChild(id);
+    }
+
     @GetMapping("/{id}")
     public UserEntity getCustomerById(@PathVariable String id) {
         return userService.getUserById(id);

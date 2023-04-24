@@ -8,49 +8,93 @@ import java.time.LocalDateTime;
 public class UserAuthEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String user_id;
+    @Column(name = "user_code")
+    private String userCode;
 
-    @Column(nullable = false)
-    private String username;
+    @Column(name = "user_id",nullable = false)
+    private String userId;
 
-    @Column(nullable = false)
-    private String user_password;
+    @Column(nullable = false,name = "username")
+    private String userName;
 
-    @Column(nullable = false)
-    private String user_type;
+    @Column(nullable = false,name = "password")
+    private String userPassword;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "user_type")
+    private String userType;
+
+    @Column(nullable = false, name="token")
     private String token;
 
-    @Column(nullable = false)
-    private LocalDateTime creation_date;
+    @Column(nullable = false,name="creation_date")
+    private LocalDateTime creationDate;
 
+    public String getUserCode() {
+        return userCode;
+    }
 
-    public String getUserId() { return user_id; }
+    public void setUserCode(String userCode) {
+        this.userCode = userCode;
+    }
 
-    public void setUserId(String user_id) { this.user_id = user_id; }
+    public String getUserId() {
+        return userId;
+    }
 
-    public String getUsername() { return username; }
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
-    public void setUsername(String username) { this.username = username; }
+    public String getUserName() {
+        return userName;
+    }
 
-    public String getUserPassword() { return user_password; }
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
-    public void setUserPassword(String user_password) { this.user_password = user_password; }
+    public String getUserPassword() {
+        return userPassword;
+    }
 
-    public String getUserType() { return user_type; }
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
+    }
 
-    public void setUserType(String user_type) { this.user_type = user_type; }
+    public String getUserType() {
+        return userType;
+    }
 
-    public String getToken() { return token; }
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
 
-    public void setToken(String token) { this.token = token; }
+    public String getToken() {
+        return token;
+    }
 
-    public LocalDateTime getCreationDate() { return creation_date; }
+    public void setToken(String token) {
+        this.token = token;
+    }
 
-    public void setCreationDate(LocalDateTime creation_date) { this.creation_date = creation_date; }
+    public LocalDateTime getCreationDate() {
+        return creationDate;
+    }
 
+    public void setCreationDate(LocalDateTime creationDate) {
+        this.creationDate = creationDate;
+    }
 
-
+    @Override
+    public String toString() {
+        return "UserAuthEntity{" +
+                "userCode='" + userCode + '\'' +
+                ", userId='" + userId + '\'' +
+                ", userName='" + userName + '\'' +
+                ", userPassword='" + userPassword + '\'' +
+                ", userType='" + userType + '\'' +
+                ", token='" + token + '\'' +
+                ", creationDate=" + creationDate +
+                '}';
+    }
 }

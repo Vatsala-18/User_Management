@@ -12,14 +12,13 @@ import javax.persistence.*;
 @Data
 @Table(name = "user_details")
 public class UserEntity {
-
-    @Column(name = "user_id")
-    private String userId;
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "user_code")
     private int userCode;
+
+    @Column(name = "user_id", unique = true)
+    private String userId;
 
     @Column(name = "user_fname")
     private String userFname;
