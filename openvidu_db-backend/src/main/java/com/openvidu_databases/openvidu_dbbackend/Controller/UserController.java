@@ -1,6 +1,8 @@
 package com.openvidu_databases.openvidu_dbbackend.Controller;
 
+import com.openvidu_databases.openvidu_dbbackend.Entity.UserAuthEntity;
 import com.openvidu_databases.openvidu_dbbackend.Entity.UserEntity;
+import com.openvidu_databases.openvidu_dbbackend.Repository.UserAuthRepository;
 import com.openvidu_databases.openvidu_dbbackend.Repository.UserRepository;
 //import com.openvidu_databases.openvidu_dbbackend.Services.UserService;
 import com.openvidu_databases.openvidu_dbbackend.Services.UserService;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -26,8 +29,15 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private UserAuthRepository userAuthRepository;
+
+
     @GetMapping("/getAll")
-    public List<UserEntity> getAllCustomers() {
+    public List<UserEntity> getAllUsers() {
         logger.info("Request received");
         return userService.getAllUsers();
     }
@@ -37,8 +47,8 @@ public class UserController {
         return userService.getAllChild(id);
     }
 
-    @GetMapping("/{id}")
-    public UserEntity getCustomerById(@PathVariable String id) {
+    @GetMapping("/getById/{id}")
+    public UserEntity getUserById(@PathVariable String id) {
         return userService.getUserById(id);
     }
 
@@ -48,16 +58,44 @@ public class UserController {
         return userService.createUser(user);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public UserEntity updateUser(@PathVariable String id, @RequestBody UserEntity userDetails) {
-        return userService.updateUser(id, userDetails);
+        userDetails.setUserId(id);
+        return userService.updateUser(userDetails);
     }
 
-    @DeleteMapping("/{id}")
+    /*@DeleteMapping("/delete/{id}")
     public void deleteCustomer(@PathVariable String id) {
         userService.deleteUser(id);
+    }*/
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody Map<String, String> params) {
+        // UserAuthEntity user = userAuthRepository.findByUserName(userName);
+        String userId = params.get("userId");
+        String userPassword = params.get("userPassword");
+        UserEntity user = userRepository.findByUserId(userId);
+
+
+        if (user != null && user.getUserPassword().equals(userPassword)) {
+            String token = generateToken(userId);
+            // user.setToken(token);
+            // userAuthRepository.save(user);
+         //   userAuthRepository.save(token);
+            return ResponseEntity.ok(token);
+        }
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
+    private String generateToken(String userId) {
+        return Jwts.builder()
+                .setSubject(userId)
+                .setIssuedAt(new Date())
+                .setExpiration(new java.sql.Date(System.currentTimeMillis() + 86400000))
+                .signWith(SignatureAlgorithm.HS256, "secret")
+                .compact();
+    }
 
 
 

@@ -14,20 +14,14 @@ public class UserAuthEntity {
     @Column(name = "user_id",nullable = false)
     private String userId;
 
-    @Column(nullable = false,name = "username")
-    private String userName;
-
-    @Column(nullable = false,name = "password")
-    private String userPassword;
-
-    @Column(nullable = false, name = "user_type")
-    private String userType;
-
     @Column(nullable = false, name="token")
     private String token;
 
     @Column(nullable = false,name="creation_date")
     private LocalDateTime creationDate;
+
+    @Column(nullable = false,name="exp_date")
+    private LocalDateTime expDate;
 
     public String getUserCode() {
         return userCode;
@@ -43,30 +37,6 @@ public class UserAuthEntity {
 
     public void setUserId(String userId) {
         this.userId = userId;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getUserPassword() {
-        return userPassword;
-    }
-
-    public void setUserPassword(String userPassword) {
-        this.userPassword = userPassword;
-    }
-
-    public String getUserType() {
-        return userType;
-    }
-
-    public void setUserType(String userType) {
-        this.userType = userType;
     }
 
     public String getToken() {
@@ -85,16 +55,22 @@ public class UserAuthEntity {
         this.creationDate = creationDate;
     }
 
+    public LocalDateTime getExpDate() {
+        return expDate;
+    }
+
+    public void setExpDate(LocalDateTime expDate) {
+        this.expDate = expDate;
+    }
+
     @Override
     public String toString() {
         return "UserAuthEntity{" +
                 "userCode='" + userCode + '\'' +
                 ", userId='" + userId + '\'' +
-                ", userName='" + userName + '\'' +
-                ", userPassword='" + userPassword + '\'' +
-                ", userType='" + userType + '\'' +
                 ", token='" + token + '\'' +
                 ", creationDate=" + creationDate +
+                ", expDate=" + expDate +
                 '}';
     }
 }
