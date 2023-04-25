@@ -9,7 +9,7 @@ public class UserAuthEntity {
 
     @Id
     @Column(name = "user_code")
-    private String userCode;
+    private int userCode;
 
     @Column(name = "user_id",nullable = false)
     private String userId;
@@ -23,11 +23,11 @@ public class UserAuthEntity {
     @Column(nullable = false,name="exp_date")
     private LocalDateTime expDate;
 
-    public String getUserCode() {
+    public int getUserCode() {
         return userCode;
     }
 
-    public void setUserCode(String userCode) {
+    public void setUserCode(int userCode) {
         this.userCode = userCode;
     }
 

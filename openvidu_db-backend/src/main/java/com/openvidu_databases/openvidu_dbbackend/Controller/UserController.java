@@ -11,10 +11,13 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +37,12 @@ public class UserController {
 
     @Autowired
     private UserAuthRepository userAuthRepository;
+
+    @Value("${secret.key}")
+    private String secret;
+
+    @Value("${access.time}")
+    private int accessTime;
 
 
     @GetMapping("/getAll")
@@ -76,13 +85,25 @@ public class UserController {
         String userPassword = params.get("userPassword");
         UserEntity user = userRepository.findByUserId(userId);
 
+        userAuthRepository.deleteIfExpired();
 
         if (user != null && user.getUserPassword().equals(userPassword)) {
-            String token = generateToken(userId);
-            // user.setToken(token);
-            // userAuthRepository.save(user);
-         //   userAuthRepository.save(token);
-            return ResponseEntity.ok(token);
+            if(userAuthRepository.isValid(userId)){
+                return ResponseEntity.ok("Valid Token");
+            }
+            else {
+                String token = generateToken(userId);
+                LocalDateTime now = LocalDateTime.now();
+                LocalDateTime newDateTime = now.plus(accessTime, ChronoUnit.HOURS);
+                UserAuthEntity ua = new UserAuthEntity();
+                ua.setUserId(user.getUserId());
+                ua.setUserCode(user.getUserCode());
+                ua.setToken(token);
+                ua.setCreationDate(now);
+                ua.setExpDate(newDateTime);
+                userAuthRepository.save(ua);
+                return ResponseEntity.ok(token);
+            }
         }
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -93,7 +114,7 @@ public class UserController {
                 .setSubject(userId)
                 .setIssuedAt(new Date())
                 .setExpiration(new java.sql.Date(System.currentTimeMillis() + 86400000))
-                .signWith(SignatureAlgorithm.HS256, "secret")
+                .signWith(SignatureAlgorithm.HS256, secret)
                 .compact();
     }
 
