@@ -1,8 +1,12 @@
 package com.openvidu_databases.openvidu_dbbackend.Entity;
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 import lombok.Data;
 
+import org.hibernate.annotations.Type;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 import javax.persistence.*;
@@ -11,7 +15,9 @@ import javax.persistence.*;
 @EntityScan
 @Data
 @Table(name = "user_details")
-public class UserEntity {
+public class UserEntity implements Serializable {
+
+//    private static final long serialVersionUID=810972626450090362960L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "user_code")
@@ -20,6 +26,7 @@ public class UserEntity {
     @Column(name = "user_id", unique = true)
     private String userId;
 
+    private HashMap<String, String> extraAttributes = new HashMap<String, String>(0);
     @Column(name = "user_fname")
     private String userFname;
 
@@ -78,15 +85,6 @@ public class UserEntity {
     @Column(name = "acc_status")
     private String accStatus;
 
- /*   @Type(type = "json")
-    @Column(name = "features", columnDefinition = "json")
-    private JsonNode features;
-
-    public JsonNode getFeatures() { return features; }
-
-    public void setFeatures(JsonNode features) { this.features = features; }
-
-*/
     public String getUserId() {
         return userId;
     }
@@ -253,30 +251,41 @@ public class UserEntity {
         this.accStatus = accStatus;
     }
 
+    @Type(type="com.openvidu_databases.openvidu_dbbackend.Utils.MapType")
+    @Column(name="extra_attributes",columnDefinition="text")
+    public Map<String, String> getExtraAttributes() {
+        return extraAttributes;
+    }
+
+    public void setExtraAttributes(HashMap<String, String> extraAttributes) {
+        this.extraAttributes = extraAttributes;
+    }
+
     @Override
     public String toString() {
         return "UserEntity{" +
-                "user_id='" + userId + '\'' +
-                ", user_code=" + userCode +
-                ", user_fname='" + userFname + '\'' +
-                ", user_lname='" + userLname + '\'' +
+                "userCode=" + userCode +
+                ", userId='" + userId + '\'' +
+                ", extraAttributes=" + extraAttributes +
+                ", userFname='" + userFname + '\'' +
+                ", userLname='" + userLname + '\'' +
                 ", email='" + email + '\'' +
                 ", mobile='" + mobile + '\'' +
                 ", address='" + address + '\'' +
-                ", user_password='" + userPassword + '\'' +
-                ", group_permission='" + groupPermission + '\'' +
-                ", user_type='" + userType + '\'' +
-                ", service_type='" + serviceType + '\'' +
-                ", parent_id='" + parentId + '\'' +
-                ", parent_code=" + parentCode +
-                ", max_users=" + maxUsers +
-                ", max_participants=" + maxParticipants +
-                ", active_sessions=" + activeSessions +
-                ", max_duration=" + maxDuration +
-                ", creation_date=" + creationDate +
-                ", last_login=" + lastLogin +
-                ", acc_exp_date=" + accExpDate +
-                ", acc_status='" + accStatus + '\'' +
+                ", userPassword='" + userPassword + '\'' +
+                ", groupPermission='" + groupPermission + '\'' +
+                ", userType='" + userType + '\'' +
+                ", serviceType='" + serviceType + '\'' +
+                ", parentId='" + parentId + '\'' +
+                ", parentCode=" + parentCode +
+                ", maxUsers=" + maxUsers +
+                ", maxParticipants=" + maxParticipants +
+                ", activeSessions=" + activeSessions +
+                ", maxDuration=" + maxDuration +
+                ", creationDate=" + creationDate +
+                ", lastLogin=" + lastLogin +
+                ", accExpDate=" + accExpDate +
+                ", accStatus='" + accStatus + '\'' +
                 '}';
     }
 }

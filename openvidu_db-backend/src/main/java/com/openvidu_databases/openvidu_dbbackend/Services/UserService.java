@@ -31,7 +31,7 @@ public class UserService {
         logger.info("User data {}",userDatas);
         for(UserEntity userData:userDatas){
             logger.info("User id {},Address {}",userData.getUser_id(),userData.getAddress());}*/
-
+        logger.info(String.valueOf(userRepository.findAll()));
         return userRepository.findAll();
     }
 
@@ -39,9 +39,9 @@ public class UserService {
          return userRepository.findAllChild(id);
     }
 
-    public UserEntity getUserById(String id) {
-        return userRepository.findById(id)
-                .orElse(null);
+    public List<UserEntity> getUserById(String id) {
+        logger.info(String.valueOf(userRepository.findById(id)));
+        return  userRepository.findById(id);
     }
 
     public UserEntity createUser(UserEntity user) {
