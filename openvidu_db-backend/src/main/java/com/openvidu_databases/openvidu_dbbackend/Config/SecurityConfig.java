@@ -32,8 +32,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity http) throws Exception {
 
     ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry conf = http.cors().and()
-      .csrf().disable().authorizeRequests()
-      .antMatchers("/user/**").permitAll();
+            .csrf().disable().authorizeRequests()
+            .antMatchers("/user/**").permitAll();
 
     conf.and().httpBasic();
 
@@ -53,7 +53,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   @Autowired
   public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
     auth.inMemoryAuthentication().withUser(user).password("{noop}" + password)
-      .roles("ADMIN");
+            .roles("ADMIN");
   }
 }
-

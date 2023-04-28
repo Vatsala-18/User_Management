@@ -1,8 +1,8 @@
 package com.openvidu_databases.openvidu_dbbackend.Entity;
 import java.time.LocalDateTime;
 
-
 import lombok.Data;
+
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 import javax.persistence.*;
@@ -35,6 +35,7 @@ public class UserEntity {
     @Column(name = "address")
     private String address;
 
+    @Lob
     @Column(name = "user_password")
     private String userPassword;
 
@@ -77,6 +78,15 @@ public class UserEntity {
     @Column(name = "acc_status")
     private String accStatus;
 
+ /*   @Type(type = "json")
+    @Column(name = "features", columnDefinition = "json")
+    private JsonNode features;
+
+    public JsonNode getFeatures() { return features; }
+
+    public void setFeatures(JsonNode features) { this.features = features; }
+
+*/
     public String getUserId() {
         return userId;
     }
@@ -133,9 +143,7 @@ public class UserEntity {
         this.address = address;
     }
 
-    public String getUserPassword() {
-        return userPassword;
-    }
+    public String getUserPassword() { return userPassword; }
 
     public void setUserPassword(String userPassword) {
         this.userPassword = userPassword;
