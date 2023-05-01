@@ -48,42 +48,78 @@ public class UserController {
     private int accessTime;
 
     @GetMapping("/getAll")
-    public Object getAllUsers(HttpServletRequest request) {
+    public ResponseEntity<List<UserEntity>> getAllUsers(HttpServletRequest request) {
         logger.info(getHeaders(request).toString());
         logger.info(request.getHeader("id"));
         logger.info(request.getHeader("token"));
         String id = request.getHeader("id");
         String token = request.getHeader("token");
         if (isValidToken(id,token)) {
-            return userService.getAllUsers();
+            return ResponseEntity.ok(userService.getAllUsers());
+        }
+        else {
+            return  new ResponseEntity<List<UserEntity>>(HttpStatus.UNAUTHORIZED);
+        }
+    }
+
+    @GetMapping("/child/{id}")
+    public Object getAllChildById(@PathVariable String id,HttpServletRequest request) {
+
+        String ID = request.getHeader("id");
+        String token = request.getHeader("token");
+        logger.info(ID);
+        logger.info(token);
+        if (isValidToken(ID,token)) {
+            return userService.getAllChild(id);
         }
         else{
             return new UserNotAuthorizedException("Access Denied");
         }
     }
 
-    @GetMapping("/child/{id}")
-    public List<UserEntity> getAllChildById(@PathVariable String id) {
-
-        return userService.getAllChild(id);
-    }
-
     @GetMapping("/getById/{id}")
-    public UserEntity getUserById(@PathVariable String id) {
-        return userService.getUserById(id);
+    public Object getUserById(@PathVariable String id, HttpServletRequest request) {
+
+        String ID = request.getHeader("id");
+        String token = request.getHeader("token");
+        if (isValidToken(ID,token)) {
+            logger.info(String.valueOf(userService.getUserById(id)));
+            return userService.getUserById(id);
+        }
+        else{
+            return new UserNotAuthorizedException("Access Denied");
+        }
     }
 
     @PostMapping("/create")
     public UserEntity createUser(@RequestBody UserEntity user, HttpServletRequest request, HttpServletResponse response) {
         logger.info(getHeaders(request).toString());
         logger.info(String.valueOf(user));
-        return userService.createUser(user);
+        user.setCreationDate(LocalDateTime.now());
+        String id = request.getHeader("id");
+        String token = request.getHeader("token");
+      //  if (isValidToken(id,token)) {
+            return userService.createUser(user);
+      //  }
+      /*  else{
+            return new UserNotAuthorizedException("Access Denied");
+        }*/
     }
 
     @PutMapping("/update/{id}")
-    public UserEntity updateUser(@PathVariable String id, @RequestBody UserEntity userDetails) {
+    public UserEntity updateUser(@PathVariable String id, @RequestBody UserEntity userDetails, HttpServletRequest request) {
         userDetails.setUserId(id);
         return userService.updateUser(userDetails);
+      /*  String id = request.getHeader("id");
+        String token = request.getHeader("token");
+        if (isValidToken(id,token)) {
+            return userService.updateUser(userDetails);
+        }
+        else{
+            return new UserNotAuthorizedException("Access Denied");
+        }
+
+       */
     }
 
     /*@DeleteMapping("/delete/{id}")
