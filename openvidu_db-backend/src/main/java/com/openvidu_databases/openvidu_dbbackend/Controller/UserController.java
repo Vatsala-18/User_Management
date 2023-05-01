@@ -98,7 +98,7 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<UserEntity> createUser(@RequestBody UserEntity user, HttpServletRequest request, HttpServletResponse response) {
+    public UserEntity createUser(@RequestBody UserEntity user, HttpServletRequest request, HttpServletResponse response) {
         logger.info(getHeaders(request).toString());
         logger.info(String.valueOf(user));
         user.setCreationDate(LocalDateTime.now());
@@ -110,14 +110,14 @@ public class UserController {
 //        if(userRepository.ifIdExists(user.getUserId()) == 1){
 //            return  new ResponseEntity<UserEntity>(HttpStatus.CONFLICT);
 //        }
-        if (isValidToken(id,token)) {
-            return ResponseEntity.ok(userService.createUser(user));
-        }
-           // return userService.createUser(user);
-        else{
-            return  new ResponseEntity<UserEntity>(HttpStatus.UNAUTHORIZED);
-
-        }
+       // if (isValidToken(id,token)) {
+          //  return ResponseEntity.ok(userService.createUser(user));
+    //}
+            return userService.createUser(user);
+        //else{
+          //  return  new ResponseEntity<UserEntity>(HttpStatus.UNAUTHORIZED);
+        //  //  return new UserNotAuthorizedException("Access Denied");
+      //  }
     }
 
     @PutMapping("/update/{id}")
