@@ -10,6 +10,7 @@ import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.usertype.UserType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -19,6 +20,7 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.util.Map;
 
+@Component
 public class MapType implements UserType {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MapType.class);

@@ -47,6 +47,7 @@ public class UserService {
     public UserEntity createUser(UserEntity user) {
         logger.info("User details {}",user.toString());
        // user.setUserPassword(user.getUserPassword());
+
         return userRepository.save(user);
     }
 

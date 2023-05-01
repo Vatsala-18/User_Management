@@ -9,12 +9,14 @@ import com.openvidu_databases.openvidu_dbbackend.Repository.UserRepository;
 import com.openvidu_databases.openvidu_dbbackend.Services.UserService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.apache.catalina.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,8 +40,8 @@ public class UserController {
     @Autowired
     private UserAuthRepository userAuthRepository;
 
-//    @Autowired
-//    private UserAuthEntity userAuthEntity;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Value("${secret.key}")
     private String secret;
@@ -63,47 +65,59 @@ public class UserController {
     }
 
     @GetMapping("/child/{id}")
-    public Object getAllChildById(@PathVariable String id,HttpServletRequest request) {
+    public ResponseEntity<List<UserEntity>> getAllChildById(@PathVariable String id, HttpServletRequest request) {
 
         String ID = request.getHeader("id");
         String token = request.getHeader("token");
         logger.info(ID);
         logger.info(token);
         if (isValidToken(ID,token)) {
-            return userService.getAllChild(id);
+            return ResponseEntity.ok(userService.getAllChild(id));
+            //return userService.getAllChild(id);
         }
         else{
-            return new UserNotAuthorizedException("Access Denied");
+           // return new UserNotAuthorizedException("Access Denied");
+            return  new ResponseEntity<List<UserEntity>>(HttpStatus.UNAUTHORIZED);
         }
     }
 
     @GetMapping("/getById/{id}")
-    public Object getUserById(@PathVariable String id, HttpServletRequest request) {
+    public ResponseEntity<List<UserEntity>> getUserById(@PathVariable String id, HttpServletRequest request) {
 
         String ID = request.getHeader("id");
         String token = request.getHeader("token");
         if (isValidToken(ID,token)) {
             logger.info(String.valueOf(userService.getUserById(id)));
-            return userService.getUserById(id);
+            return ResponseEntity.ok(userService.getUserById(id));
+           // return userService.getUserById(id);
         }
         else{
-            return new UserNotAuthorizedException("Access Denied");
+           // return new UserNotAuthorizedException("Access Denied");
+            return  new ResponseEntity<List<UserEntity>>(HttpStatus.UNAUTHORIZED);
         }
     }
 
     @PostMapping("/create")
-    public UserEntity createUser(@RequestBody UserEntity user, HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<UserEntity> createUser(@RequestBody UserEntity user, HttpServletRequest request, HttpServletResponse response) {
         logger.info(getHeaders(request).toString());
         logger.info(String.valueOf(user));
         user.setCreationDate(LocalDateTime.now());
+        user.setLastLogin(LocalDateTime.now());
+        String mypass = passwordEncoder.encode(user.getUserPassword());
+        user.setUserPassword(mypass);
         String id = request.getHeader("id");
         String token = request.getHeader("token");
-      //  if (isValidToken(id,token)) {
-            return userService.createUser(user);
-      //  }
-      /*  else{
-            return new UserNotAuthorizedException("Access Denied");
-        }*/
+//        if(userRepository.ifIdExists(user.getUserId()) == 1){
+//            return  new ResponseEntity<UserEntity>(HttpStatus.CONFLICT);
+//        }
+        if (isValidToken(id,token)) {
+            return ResponseEntity.ok(userService.createUser(user));
+        }
+           // return userService.createUser(user);
+        else{
+            return  new ResponseEntity<UserEntity>(HttpStatus.UNAUTHORIZED);
+
+        }
     }
 
     @PutMapping("/update/{id}")
@@ -135,15 +149,16 @@ public class UserController {
         UserAuthEntity user = userAuthRepository.findById(id);
         UserEntity user1 = userRepository.findByUserId(id);
 
-        if (user1 != null && user1.getUserPassword().equals(password) && user1.getUserId().equals(id)) {
+        if (user1 != null && passwordEncoder.matches(password,user1.getUserPassword()) && user1.getUserId().equals(id)) {
             if(isValidTokenLogin(id)){
                 HashMap<String,String> response=new HashMap<>();
+                response.put("user_type",user1.getUserType());
                 response.put("token",user.getToken());
                 return ResponseEntity.ok(response);
             }
             else {
 
-                if (user1 != null && user1.getUserPassword().equals(password)) {
+                if (user1 != null && passwordEncoder.matches(password,user1.getUserPassword())) {
                     String token = generateToken(id);
                     LocalDateTime now = LocalDateTime.now();
                     LocalDateTime newDateTime = now.plus(accessTime, ChronoUnit.HOURS);
@@ -163,7 +178,12 @@ public class UserController {
                         ua.setExpDate(newDateTime);
                     }
                     userAuthRepository.save(ua);
-                    return ResponseEntity.ok(token);
+                   // return ResponseEntity.ok(token);
+                    Map<String,String> res = new HashMap<>();
+
+                    res.put("user_type",user1.getUserType());
+                    res.put("token",token);
+                    return new ResponseEntity<>(res, HttpStatus.OK);
                 }
            }
         }

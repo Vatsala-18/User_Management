@@ -17,7 +17,7 @@ import javax.persistence.*;
 @Table(name = "user_details")
 public class UserEntity implements Serializable {
 
-//    private static final long serialVersionUID=810972626450090362960L;
+    //    private static final long serialVersionUID=810972626450090362960L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "user_code")
@@ -26,6 +26,8 @@ public class UserEntity implements Serializable {
     @Column(name = "user_id", unique = true)
     private String userId;
 
+    @Column(name="extra_attributes",columnDefinition="text")
+    @Type(type="com.openvidu_databases.openvidu_dbbackend.Utils.MapType")
     private HashMap<String, String> extraAttributes = new HashMap<String, String>(0);
     @Column(name = "user_fname")
     private String userFname;
@@ -251,8 +253,7 @@ public class UserEntity implements Serializable {
         this.accStatus = accStatus;
     }
 
-    @Type(type="com.openvidu_databases.openvidu_dbbackend.Utils.MapType")
-    @Column(name="extra_attributes",columnDefinition="text")
+
     public Map<String, String> getExtraAttributes() {
         return extraAttributes;
     }
