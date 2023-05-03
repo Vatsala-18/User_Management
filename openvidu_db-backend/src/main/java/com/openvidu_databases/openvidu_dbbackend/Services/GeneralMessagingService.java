@@ -37,9 +37,9 @@ public class GeneralMessagingService implements MessagingService {
    // @Autowired
    // OpenViduService openViduService;
     private static final Logger logger = LoggerFactory.getLogger(GeneralMessagingService.class);
-    @Value("${SMS_TEXT:-}")
+    @Value("${sms.text:-}")
     String smsText;
-    @Value("${SMS_URL:-}")
+    @Value("${sms.url:-}")
     String smsUrl;
     @Value("${WA_URL:-}")
     String waUrl;

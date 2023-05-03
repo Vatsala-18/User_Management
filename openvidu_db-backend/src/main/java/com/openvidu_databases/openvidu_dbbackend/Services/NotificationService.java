@@ -48,7 +48,7 @@ public class NotificationService {
 
     @Value("${whatsapp.url:https://api.pinbot.ai/v1/wamessage/send}")
     String whatsAppUrl;
-    
+
     @Value("${whatsapp.text:}")
     String whatsappText;
 
@@ -101,6 +101,7 @@ public class NotificationService {
    // public static final Logger logger= LoggerFactory.getLogger(NotificationService.class);
 
 */
+    /*
 @PostMapping("/sendWhatsapp")
 public String sendMessage(String recipient, String templateId, String url, String salutation, String salutation1) {
     String endpoint = whatsAppUrl;
@@ -122,7 +123,7 @@ public String sendMessage(String recipient, String templateId, String url, Strin
     ResponseEntity<String> response = restTemplate.postForEntity(endpoint, requestEntity, String.class);
     return response.getBody();
 }
-
+*/
     @PostMapping("/notification")
     public ResponseEntity<?> sendNotification(@RequestBody(required = false) Map<String, ?> params) throws IOException {
 
