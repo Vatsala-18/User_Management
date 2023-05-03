@@ -76,10 +76,10 @@ public class UserEntity implements Serializable {
     private int maxDuration;
 
     @Column(name = "creation_date")
-    private LocalDateTime creationDate;
+    private String creationDate;
 
     @Column(name = "last_login")
-    private LocalDateTime lastLogin;
+    private String lastLogin;
 
     @Column(name = "acc_exp_date")
     private LocalDateTime accExpDate;
@@ -221,19 +221,19 @@ public class UserEntity implements Serializable {
         this.maxDuration = maxDuration;
     }
 
-    public LocalDateTime getCreationDate() {
+    public String getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(LocalDateTime creationDate) {
+    public void setCreationDate(String creationDate) {
         this.creationDate = creationDate;
     }
 
-    public LocalDateTime getLastLogin() {
+    public String getLastLogin() {
         return lastLogin;
     }
 
-    public void setLastLogin(LocalDateTime lastLogin) {
+    public void setLastLogin(String lastLogin) {
         this.lastLogin = lastLogin;
     }
 

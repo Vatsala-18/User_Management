@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
@@ -49,6 +50,9 @@ public class UserController {
     @Value("${access.time}")
     private int accessTime;
 
+    private static final String DATE_FORMATTER= "dd-MM-yyyy HH:mm:ss";
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMATTER);
+
     @GetMapping("/getAll")
     public ResponseEntity<List<UserEntity>> getAllUsers(HttpServletRequest request) {
         logger.info(getHeaders(request).toString());
@@ -73,10 +77,8 @@ public class UserController {
         logger.info(token);
         if (isValidToken(ID,token)) {
             return ResponseEntity.ok(userService.getAllChild(id));
-            //return userService.getAllChild(id);
         }
         else{
-           // return new UserNotAuthorizedException("Access Denied");
             return  new ResponseEntity<List<UserEntity>>(HttpStatus.UNAUTHORIZED);
         }
     }
@@ -89,10 +91,10 @@ public class UserController {
         if (isValidToken(ID,token)) {
             logger.info(String.valueOf(userService.getUserById(id)));
             return ResponseEntity.ok(userService.getUserById(id));
-           // return userService.getUserById(id);
+
         }
         else{
-           // return new UserNotAuthorizedException("Access Denied");
+
             return  new ResponseEntity<List<UserEntity>>(HttpStatus.UNAUTHORIZED);
         }
     }
@@ -101,8 +103,12 @@ public class UserController {
     public UserEntity createUser(@RequestBody UserEntity user, HttpServletRequest request, HttpServletResponse response) {
         logger.info(getHeaders(request).toString());
         logger.info(String.valueOf(user));
-        user.setCreationDate(LocalDateTime.now());
-        user.setLastLogin(LocalDateTime.now());
+        user.setCreationDate(LocalDateTime.now().toString());
+        user.setLastLogin(LocalDateTime.now().toString());
+ //       user.setAccExpDate(LocalDateTime.parse(user.getAccExpDate().toString()));
+//        user.setCreationDate((LocalDateTime.now().format(formatter)).toString());
+//        user.setLastLogin((LocalDateTime.now().format(formatter)).toString());
+       //
         String mypass = passwordEncoder.encode(user.getUserPassword());
         user.setUserPassword(mypass);
         String id = request.getHeader("id");
