@@ -62,6 +62,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     auth.inMemoryAuthentication().withUser(user).password("{noop}" + password)
             .roles("ADMIN");
   }
+  @Bean
+  public RestTemplate getRestTemplate() {
+    return new RestTemplate();
+  }
+
 
 
 }

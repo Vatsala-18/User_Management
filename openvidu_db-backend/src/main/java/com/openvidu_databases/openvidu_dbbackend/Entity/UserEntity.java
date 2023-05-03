@@ -1,13 +1,18 @@
 package com.openvidu_databases.openvidu_dbbackend.Entity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.google.api.client.util.DateTime;
 import lombok.Data;
 
 import org.hibernate.annotations.Type;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.data.jpa.repository.Temporal;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 
@@ -29,6 +34,7 @@ public class UserEntity implements Serializable {
     @Column(name="extra_attributes",columnDefinition="text")
     @Type(type="com.openvidu_databases.openvidu_dbbackend.Utils.MapType")
     private HashMap<String, String> extraAttributes = new HashMap<String, String>(0);
+
     @Column(name = "user_fname")
     private String userFname;
 
