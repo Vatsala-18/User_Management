@@ -1,4 +1,4 @@
-package com.openvidu_databases.openvidu_dbbackend.Services;
+/*package com.openvidu_databases.openvidu_dbbackend.Services;
 
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.DocumentReference;
@@ -123,7 +123,7 @@ public String sendMessage(String recipient, String templateId, String url, Strin
     ResponseEntity<String> response = restTemplate.postForEntity(endpoint, requestEntity, String.class);
     return response.getBody();
 }
-*/
+
     @PostMapping("/notification")
     public ResponseEntity<?> sendNotification(@RequestBody(required = false) Map<String, ?> params) throws IOException {
 
@@ -168,3 +168,5 @@ public String sendMessage(String recipient, String templateId, String url, Strin
 
 
 }
+
+     */

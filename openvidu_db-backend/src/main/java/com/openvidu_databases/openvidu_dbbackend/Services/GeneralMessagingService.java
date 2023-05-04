@@ -96,12 +96,17 @@ public class GeneralMessagingService implements MessagingService {
             body.setFrom(String.valueOf(args[3]));
             body.setTo(String.valueOf(args[1]));
             body.setType(String.valueOf(args[4]));
+            logger.info(String.valueOf(args[4]));
             ArrayList<String> placeHolders = new ArrayList<>();
+            logger.info("Args 4 value = "+String.valueOf(args[4]));
             placeHolders.add((String) args[2]);
+            logger.info("Args 2 value = "+(String) args[2]);
             message message = new message(String.valueOf(args[5]),placeHolders);
+            logger.info("Value of message = "+String.valueOf(message));
             body.setMessage(message);
             ObjectMapper jsonBody=new ObjectMapper();
             String waBody=jsonBody.writeValueAsString(body);
+            logger.info("WAbody = "+waBody);
             HttpEntity<String> entity = new HttpEntity<String>(waBody, headers);
             logger.info(String.valueOf(entity.getBody()));
             submitResponse=restTemplate.exchange(waUrl, HttpMethod.POST, entity, SubmitResponse.class).getBody();

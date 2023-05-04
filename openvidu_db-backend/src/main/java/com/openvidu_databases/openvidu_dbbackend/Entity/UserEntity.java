@@ -87,8 +87,9 @@ public class UserEntity implements Serializable {
     @Column(name = "last_login")
     private String lastLogin;
 
+    //@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column(name = "acc_exp_date")
-    private LocalDateTime accExpDate;
+    private String accExpDate;
 
     @Column(name = "acc_status")
     private String accStatus;
@@ -243,11 +244,11 @@ public class UserEntity implements Serializable {
         this.lastLogin = lastLogin;
     }
 
-    public LocalDateTime getAccExpDate() {
+    public String getAccExpDate() {
         return accExpDate;
     }
 
-    public void setAccExpDate(LocalDateTime accExpDate) {
+    public void setAccExpDate(String accExpDate) {
         this.accExpDate = accExpDate;
     }
 

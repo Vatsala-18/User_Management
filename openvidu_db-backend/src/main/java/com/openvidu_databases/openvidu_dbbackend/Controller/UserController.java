@@ -50,7 +50,7 @@ public class UserController {
     @Value("${access.time}")
     private int accessTime;
 
-    private static final String DATE_FORMATTER= "dd-MM-yyyy HH:mm:ss";
+    private static final String DATE_FORMATTER= "yyyy-MM-dd HH:mm:ss";
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMATTER);
 
     @GetMapping("/getAll")
@@ -76,6 +76,7 @@ public class UserController {
         logger.info(ID);
         logger.info(token);
         if (isValidToken(ID,token)) {
+
             return ResponseEntity.ok(userService.getAllChild(id));
         }
         else{
@@ -103,8 +104,8 @@ public class UserController {
     public UserEntity createUser(@RequestBody UserEntity user, HttpServletRequest request, HttpServletResponse response) {
         logger.info(getHeaders(request).toString());
         logger.info(String.valueOf(user));
-        user.setCreationDate(LocalDateTime.now().toString());
-        user.setLastLogin(LocalDateTime.now().toString());
+        String creation = LocalDateTime.now().format(formatter);
+        user.setCreationDate(creation);
  //       user.setAccExpDate(LocalDateTime.parse(user.getAccExpDate().toString()));
 //        user.setCreationDate((LocalDateTime.now().format(formatter)).toString());
 //        user.setLastLogin((LocalDateTime.now().format(formatter)).toString());
@@ -160,6 +161,9 @@ public class UserController {
                 HashMap<String,String> response=new HashMap<>();
                 response.put("user_type",user1.getUserType());
                 response.put("token",user.getToken());
+                //String creation = LocalDateTime.now().format(formatter);
+                //user1.setLastLogin(creation);
+                userRepository.setLastLogin(id);
                 return ResponseEntity.ok(response);
             }
             else {
@@ -169,6 +173,9 @@ public class UserController {
                     LocalDateTime now = LocalDateTime.now();
                     LocalDateTime newDateTime = now.plus(accessTime, ChronoUnit.HOURS);
                     UserAuthEntity ua = userAuthRepository.findById(id);
+//                    String creation = LocalDateTime.now().format(formatter);
+//                    user1.setLastLogin(creation);
+                    userRepository.setLastLogin(id);
 
                     if(ua != null){
                         ua.setToken(token);
