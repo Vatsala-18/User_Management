@@ -33,4 +33,10 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
     @Transactional
     @Query(nativeQuery = true, value = "update user_details set last_login = sysdate() where user_id = :userId")
     void setLastLogin(@Param("userId") String userId);
+
+    @Modifying
+    @Transactional
+    @Query(nativeQuery=true, value = "delete from user_details where user_id = :userId ")
+    void deleteById(@Param("userId") String userId);
+
 }

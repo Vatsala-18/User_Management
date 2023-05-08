@@ -57,6 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   public PasswordEncoder passwordEncoder(){
     return new BCryptPasswordEncoder();
   }
+
   @Autowired
   public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
     auth.inMemoryAuthentication().withUser(user).password("{noop}" + password)

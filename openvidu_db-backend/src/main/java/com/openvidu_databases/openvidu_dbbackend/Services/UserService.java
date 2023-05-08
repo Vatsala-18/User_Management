@@ -7,15 +7,8 @@ import com.openvidu_databases.openvidu_dbbackend.Repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserService {
@@ -27,11 +20,7 @@ public class UserService {
 
     private static final Logger logger= LoggerFactory.getLogger(UserService.class);
     public List<UserEntity> getAllUsers() {
-        /*List<UserEntity> userDatas=userRepository.findAll();
-        logger.info("User data {}",userDatas);
-        for(UserEntity userData:userDatas){
-            logger.info("User id {},Address {}",userData.getUser_id(),userData.getAddress());}*/
-        logger.info(String.valueOf(userRepository.findAll()));
+        //logger.info(String.valueOf(userRepository.findAll()));
         return userRepository.findAll();
     }
 
@@ -40,7 +29,7 @@ public class UserService {
     }
 
     public List<UserEntity> getUserById(String id) {
-        logger.info(String.valueOf(userRepository.findById(id)));
+        //logger.info(String.valueOf(userRepository.findById(id)));
         return  userRepository.findById(id);
     }
 
@@ -51,17 +40,22 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public UserEntity updateUser(UserEntity userDetails) {
-
-        return userRepository.save(userDetails);
+    public UserEntity updateUser(UserEntity user, String id) {
+        UserEntity existing = userRepository.findByUserId(id);
+        existing.setAddress(user.getAddress());
+        existing.setEmail(user.getEmail());
+        existing.setMobile(user.getMobile());
+        existing.setServiceType(user.getServiceType());
+        existing.setUserFname(user.getUserFname());
+        existing.setUserLname(user.getUserLname());
+        existing.setAccExpDate(user.getAccExpDate());
+        return userRepository.save(existing);
     }
 
-    /*public void deleteUser(String id) {
+    public String deleteUser(String id) {
         userRepository.deleteById(id);
-    }*/
-
-
-
-
+        return "User successfully deleted.";
+    }
+    
 }
 
