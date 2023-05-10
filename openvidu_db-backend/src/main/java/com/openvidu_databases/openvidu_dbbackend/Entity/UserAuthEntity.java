@@ -8,11 +8,11 @@ import java.time.LocalDateTime;
 public class UserAuthEntity {
 
     @Id
-    @Column(name = "user_code")
-    private int userCode;
+    @Column(name = "user_id")
+    private int userId;
 
-    @Column(name = "user_id",nullable = false)
-    private String userId;
+    @Column(name = "login_id",nullable = false)
+    private String loginId;
 
     @Column(nullable = false, name="token")
     private String token;
@@ -23,21 +23,13 @@ public class UserAuthEntity {
     @Column(nullable = false,name="exp_date")
     private LocalDateTime expDate;
 
-    public int getUserCode() {
-        return userCode;
-    }
+    public int getUserId() { return userId; }
 
-    public void setUserCode(int userCode) {
-        this.userCode = userCode;
-    }
+    public void setUserId(int userId) { this.userId = userId; }
 
-    public String getUserId() {
-        return userId;
-    }
+    public String getLoginId() { return loginId; }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
+    public void setLoginId(String loginId) { this.loginId = loginId; }
 
     public String getToken() {
         return token;
@@ -66,8 +58,8 @@ public class UserAuthEntity {
     @Override
     public String toString() {
         return "UserAuthEntity{" +
-                "userCode='" + userCode + '\'' +
-                ", userId='" + userId + '\'' +
+                "userId=" + userId +
+                ", loginId='" + loginId + '\'' +
                 ", token='" + token + '\'' +
                 ", creationDate=" + creationDate +
                 ", expDate=" + expDate +

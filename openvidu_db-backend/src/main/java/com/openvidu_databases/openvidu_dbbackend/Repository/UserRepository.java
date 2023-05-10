@@ -14,29 +14,26 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Integer> {
 
-    @Query(nativeQuery=true, value = "select * from user_details")
+    @Query(nativeQuery=true, value = "select * from user_data")
     List<UserEntity> findAll();
 
-    @Query(nativeQuery = true, value = "select exists(select 1 from user_details where user_id = :userId")
-    public int ifIdExists(@Param("userId") String userId);
+    @Query(nativeQuery=true, value = "select * from user_data where login_id = :loginId ")
+    List<UserEntity> findById(@Param("loginId") String loginId);
 
-    @Query(nativeQuery=true, value = "select * from user_details where user_id = :userId ")
-    List<UserEntity> findById(@Param("userId") String userId);
+    @Query(nativeQuery=true, value = "select * from user_data where login_id = :loginId ")
+    UserEntity findByUserId(@Param("loginId") String loginId);
 
-    @Query(nativeQuery=true, value = "select * from user_details where user_id = :userId ")
-    UserEntity findByUserId(@Param("userId") String userId);
-
-    @Query(nativeQuery=true, value = "select * from user_details where parent_id = :parentId ")
-    List<UserEntity> findAllChild(@Param("parentId") String parentId);
+    @Query(nativeQuery=true, value = "select * from user_data where account_id = :accountId ")
+    List<UserEntity> findAllChild(@Param("accountId") String accountId);
 
     @Modifying
     @Transactional
-    @Query(nativeQuery = true, value = "update user_details set last_login = sysdate() where user_id = :userId")
-    void setLastLogin(@Param("userId") String userId);
+    @Query(nativeQuery = true, value = "update user_data set last_login = sysdate() where login_id = :loginId")
+    void setLastLogin(@Param("loginId") String userId);
 
     @Modifying
     @Transactional
-    @Query(nativeQuery=true, value = "delete from user_details where user_id = :userId ")
-    void deleteById(@Param("userId") String userId);
+    @Query(nativeQuery=true, value = "delete from user_data where login_id = :loginId ")
+    void deleteById(@Param("loginId") String loginId);
 
 }

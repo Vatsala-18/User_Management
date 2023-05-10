@@ -1,9 +1,8 @@
 package com.openvidu_databases.openvidu_dbbackend.Entity;
 import java.io.Serializable;
+import java.sql.Array;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.google.api.client.util.DateTime;
@@ -19,67 +18,39 @@ import javax.persistence.*;
 @Entity
 @EntityScan
 @Data
-@Table(name = "user_details")
+@Table(name = "user_data")
 public class UserEntity implements Serializable {
 
     //    private static final long serialVersionUID=810972626450090362960L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "user_code")
-    private int userCode;
+    @Column(name = "user_id")
+    private int userId;
 
-    @Column(name = "user_id", unique = true)
-    private String userId;
+    @Column(name = "account_id")
+    private int accountId;
 
-    @Column(name="extra_attributes",columnDefinition="text")
-    @Type(type="com.openvidu_databases.openvidu_dbbackend.Utils.MapType")
-    private HashMap<String, String> extraAttributes = new HashMap<String, String>(0);
+    @Column(name = "login_id", unique = true)
+    private String loginId;
 
-    @Column(name = "user_fname")
-    private String userFname;
+    @Lob
+    @Column(name = "password")
+    private String password;
 
-    @Column(name = "user_lname")
-    private String userLname;
+    @Column(name = "fname")
+    private String fname;
+
+    @Column(name = "lname")
+    private String lname;
+
+    @Column(name = "contact")
+    private String contact;
 
     @Column(name = "email")
     private String email;
 
-    @Column(name = "mobile")
-    private String mobile;
-
-    @Column(name = "address")
-    private String address;
-
-    @Lob
-    @Column(name = "user_password")
-    private String userPassword;
-
-    @Column(name = "group_permission")
-    private String groupPermission;
-
     @Column(name = "user_type")
     private String userType;
-
-    @Column(name = "service_type")
-    private String serviceType;
-
-    @Column(name = "parent_id")
-    private String parentId;
-
-    @Column(name = "parent_code")
-    private int parentCode;
-
-    @Column(name = "max_users")
-    private int maxUsers;
-
-    @Column(name = "max_participants")
-    private int maxParticipants;
-
-    @Column(name = "active_sessions")
-    private int activeSessions;
-
-    @Column(name = "max_duration")
-    private int maxDuration;
 
     @Column(name = "creation_date")
     private String creationDate;
@@ -87,43 +58,85 @@ public class UserEntity implements Serializable {
     @Column(name = "last_login")
     private String lastLogin;
 
-    //@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    @Column(name = "acc_exp_date")
-    private String accExpDate;
+    @Column(name="session",columnDefinition="text")
+    @Type(type="com.openvidu_databases.openvidu_dbbackend.Utils.MapType")
+    private HashMap<String, String> session = new HashMap<String, String>(0);
 
-    @Column(name = "acc_status")
-    private String accStatus;
+    @Column(name = "features")
+    private String features;
+    @Column(name = "features_meta")
+    private String featuresMeta;
+    @Column(name = "access_id")
+    private String accessId;
+//    @Column(name="features",columnDefinition="text")
+//    @Type(type="com.openvidu_databases.openvidu_dbbackend.Utils.MapType")
+//    private HashMap<String, String> features = new HashMap<String, String>(0);
+//
+//    @Column(name="features_meta",columnDefinition="text")
+//    @Type(type="com.openvidu_databases.openvidu_dbbackend.Utils.MapType")
+//    private HashMap<String, String> featuresMeta = new HashMap<String, String>(0);
+//
+//    @Column(name="access_id",columnDefinition="text")
+//    @Type(type="com.openvidu_databases.openvidu_dbbackend.Utils.MapType")
+//    private HashMap<String, String> accessId = new HashMap<String, String>(0);
 
-    public String getUserId() {
+    @Column(name = "status")
+    private int status;
+
+    public int getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 
-    public int getUserCode() {
-        return userCode;
+    public int getAccountId() {
+        return accountId;
     }
 
-    public void setUserCode(int userCode) {
-        this.userCode = userCode;
+    public void setAccountId(int accountId) {
+        this.accountId = accountId;
     }
 
-    public String getUserFname() {
-        return userFname;
+    public String getLoginId() {
+        return loginId;
     }
 
-    public void setUserFname(String userFname) {
-        this.userFname = userFname;
+    public void setLoginId(String loginId) {
+        this.loginId = loginId;
     }
 
-    public String getUserLname() {
-        return userLname;
+    public String getPassword() {
+        return password;
     }
 
-    public void setUserLname(String userLname) {
-        this.userLname = userLname;
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getFname() {
+        return fname;
+    }
+
+    public void setFname(String fname) {
+        this.fname = fname;
+    }
+
+    public String getLname() {
+        return lname;
+    }
+
+    public void setLname(String lname) {
+        this.lname = lname;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
     }
 
     public String getEmail() {
@@ -134,98 +147,12 @@ public class UserEntity implements Serializable {
         this.email = email;
     }
 
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getUserPassword() { return userPassword; }
-
-    public void setUserPassword(String userPassword) {
-        this.userPassword = userPassword;
-    }
-
-    public String getGroupPermission() {
-        return groupPermission;
-    }
-
-    public void setGroupPermission(String groupPermission) {
-        this.groupPermission = groupPermission;
-    }
-
     public String getUserType() {
         return userType;
     }
 
     public void setUserType(String userType) {
         this.userType = userType;
-    }
-
-    public String getServiceType() {
-        return serviceType;
-    }
-
-    public void setServiceType(String serviceType) {
-        this.serviceType = serviceType;
-    }
-
-    public String getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(String parentId) {
-        this.parentId = parentId;
-    }
-
-    public int getParentCode() {
-        return parentCode;
-    }
-
-    public void setParentCode(int parentCode) {
-        this.parentCode = parentCode;
-    }
-
-    public int getMaxUsers() {
-        return maxUsers;
-    }
-
-    public void setMaxUsers(int maxUsers) {
-        this.maxUsers = maxUsers;
-    }
-
-    public int getMaxParticipants() {
-        return maxParticipants;
-    }
-
-    public void setMaxParticipants(int maxParticipants) {
-        this.maxParticipants = maxParticipants;
-    }
-
-    public int getActiveSessions() {
-        return activeSessions;
-    }
-
-    public void setActiveSessions(int activeSessions) {
-        this.activeSessions = activeSessions;
-    }
-
-    public int getMaxDuration() {
-        return maxDuration;
-    }
-
-    public void setMaxDuration(int maxDuration) {
-        this.maxDuration = maxDuration;
     }
 
     public String getCreationDate() {
@@ -244,56 +171,89 @@ public class UserEntity implements Serializable {
         this.lastLogin = lastLogin;
     }
 
-    public String getAccExpDate() {
-        return accExpDate;
+    public HashMap<String, String> getSession() {
+        return session;
     }
 
-    public void setAccExpDate(String accExpDate) {
-        this.accExpDate = accExpDate;
+    public void setSession(HashMap<String, String> session) {
+        this.session = session;
+    }
+//
+
+    public String getFeatures() {
+        return features;
     }
 
-    public String getAccStatus() {
-        return accStatus;
+    public void setFeatures(String features) {
+        this.features = features;
     }
 
-    public void setAccStatus(String accStatus) {
-        this.accStatus = accStatus;
+    public String getFeaturesMeta() {
+        return featuresMeta;
     }
 
-
-    public Map<String, String> getExtraAttributes() {
-        return extraAttributes;
+    public void setFeaturesMeta(String featuresMeta) {
+        this.featuresMeta = featuresMeta;
     }
 
-    public void setExtraAttributes(HashMap<String, String> extraAttributes) {
-        this.extraAttributes = extraAttributes;
+    public String getAccessId() {
+        return accessId;
+    }
+
+    public void setAccessId(String accessId) {
+        this.accessId = accessId;
+    }
+//    public HashMap<String, String> getFeaturesMeta() {
+//        return featuresMeta;
+//    }
+//
+//    public void setFeaturesMeta(HashMap<String, String> featuresMeta) {
+//        this.featuresMeta = featuresMeta;
+//    }
+//
+//    public HashMap<String, String> getFeatures() {
+//        return features;
+//    }
+//
+//    public void setFeatures(HashMap<String, String> features) {
+//        this.features = features;
+//    }
+//
+//    public HashMap<String, String> getAccessId() {
+//        return accessId;
+//    }
+//
+//    public void setAccessId(HashMap<String, String> accessId) {
+//        this.accessId = accessId;
+//    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     @Override
     public String toString() {
         return "UserEntity{" +
-                "userCode=" + userCode +
-                ", userId='" + userId + '\'' +
-                ", extraAttributes=" + extraAttributes +
-                ", userFname='" + userFname + '\'' +
-                ", userLname='" + userLname + '\'' +
+                "userId=" + userId +
+                ", accountId='" + accountId + '\'' +
+                ", loginId='" + loginId + '\'' +
+                ", password='" + password + '\'' +
+                ", fname='" + fname + '\'' +
+                ", lname='" + lname + '\'' +
+                ", mobile='" + contact + '\'' +
                 ", email='" + email + '\'' +
-                ", mobile='" + mobile + '\'' +
-                ", address='" + address + '\'' +
-                ", userPassword='" + userPassword + '\'' +
-                ", groupPermission='" + groupPermission + '\'' +
                 ", userType='" + userType + '\'' +
-                ", serviceType='" + serviceType + '\'' +
-                ", parentId='" + parentId + '\'' +
-                ", parentCode=" + parentCode +
-                ", maxUsers=" + maxUsers +
-                ", maxParticipants=" + maxParticipants +
-                ", activeSessions=" + activeSessions +
-                ", maxDuration=" + maxDuration +
-                ", creationDate=" + creationDate +
-                ", lastLogin=" + lastLogin +
-                ", accExpDate=" + accExpDate +
-                ", accStatus='" + accStatus + '\'' +
+                ", creationDate='" + creationDate + '\'' +
+                ", lastLogin='" + lastLogin + '\'' +
+                ", session=" + session +
+                ", features='" + features + '\'' +
+                ", featuresMeta=" + featuresMeta +
+                ", accessId='" + accessId + '\'' +
+                ", status=" + status +
                 '}';
     }
 }

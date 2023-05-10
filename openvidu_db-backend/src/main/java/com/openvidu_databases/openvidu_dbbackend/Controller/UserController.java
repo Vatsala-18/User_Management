@@ -102,17 +102,18 @@ public class UserController {
         //logger.info(String.valueOf(user));
         String ID = request.getHeader("id");
         String token = request.getHeader("token");
+        UserEntity u = userRepository.findByUserId(ID);
 
         if(isValidToken(ID,token)) {
             String creation = LocalDateTime.now().format(formatter);
             user.setCreationDate(creation);
-            String mypass = passwordEncoder.encode(user.getUserPassword());
-            user.setUserPassword(mypass);
-            return ResponseEntity.ok(userService.createUser(user));
-        }
-        else{
+            String mypass = passwordEncoder.encode(user.getPassword());
+            user.setPassword(mypass);
+              return ResponseEntity.ok(userService.createUser(user));
+            }
+
             return  new ResponseEntity<UserEntity>(HttpStatus.UNAUTHORIZED);
-        }
+
     }
 
     @PutMapping("/update/{id}")
@@ -145,20 +146,24 @@ public class UserController {
         String id = params.get("userId");
         String password = params.get("userPassword");
 
+        logger.info("sessionId : "+id);
+        logger.info("password : "+password);
+
         UserAuthEntity user = userAuthRepository.findById(id);
         UserEntity user1 = userRepository.findByUserId(id);
 
-        if (user1 != null && passwordEncoder.matches(password,user1.getUserPassword()) && user1.getUserId().equals(id)) {
+        if (user1 != null && passwordEncoder.matches(password,user1.getPassword()) && user1.getLoginId().equals(id)) {
             if(isValidTokenLogin(id)){
                 HashMap<String,String> response=new HashMap<>();
                 response.put("user_type",user1.getUserType());
                 response.put("token",user.getToken());
+                response.put("user_data",user1.toString());
                 userRepository.setLastLogin(id);
                 return ResponseEntity.ok(response);
             }
             else {
 
-                if (user1 != null && passwordEncoder.matches(password,user1.getUserPassword())) {
+                if (user1 != null && passwordEncoder.matches(password,user1.getPassword())) {
                     String token = generateToken(id);
                     LocalDateTime now = LocalDateTime.now();
                     LocalDateTime newDateTime = now.plus(accessTime, ChronoUnit.HOURS);
@@ -172,8 +177,8 @@ public class UserController {
                     }
                     else{
                         ua = new UserAuthEntity();
+                        ua.setLoginId(user1.getLoginId());
                         ua.setUserId(user1.getUserId());
-                        ua.setUserCode(user1.getUserCode());
                         ua.setToken(token);
                         ua.setCreationDate(now);
                         ua.setExpDate(newDateTime);
@@ -183,6 +188,7 @@ public class UserController {
                     Map<String,String> res = new HashMap<>();
                     res.put("user_type",user1.getUserType());
                     res.put("token",token);
+                    res.put("user_data",user1.toString());
                     return new ResponseEntity<>(res, HttpStatus.OK);
                 }
            }

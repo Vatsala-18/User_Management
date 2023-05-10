@@ -1,6 +1,8 @@
 package com.openvidu_databases.openvidu_dbbackend.Services;
 
+import com.openvidu_databases.openvidu_dbbackend.Entity.AccountEntity;
 import com.openvidu_databases.openvidu_dbbackend.Entity.UserEntity;
+import com.openvidu_databases.openvidu_dbbackend.Repository.AccountRepository;
 import com.openvidu_databases.openvidu_dbbackend.Repository.UserAuthRepository;
 import com.openvidu_databases.openvidu_dbbackend.Repository.UserRepository;
 
@@ -17,6 +19,8 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private UserAuthRepository userAuthRepository;
+    @Autowired
+    private AccountRepository accountRepository;
 
     private static final Logger logger= LoggerFactory.getLogger(UserService.class);
     public List<UserEntity> getAllUsers() {
@@ -42,13 +46,10 @@ public class UserService {
 
     public UserEntity updateUser(UserEntity user, String id) {
         UserEntity existing = userRepository.findByUserId(id);
-        existing.setAddress(user.getAddress());
         existing.setEmail(user.getEmail());
-        existing.setMobile(user.getMobile());
-        existing.setServiceType(user.getServiceType());
-        existing.setUserFname(user.getUserFname());
-        existing.setUserLname(user.getUserLname());
-        existing.setAccExpDate(user.getAccExpDate());
+        existing.setContact(user.getContact());
+        existing.setFname(user.getFname());
+        existing.setLname(user.getLname());
         return userRepository.save(existing);
     }
 
@@ -56,6 +57,6 @@ public class UserService {
         userRepository.deleteById(id);
         return "User successfully deleted.";
     }
-    
+
 }
 
