@@ -105,9 +105,6 @@ public class UserController {
         UserEntity u = userRepository.findByUserId(ID);
         logger.info(String.valueOf(user.getFeatures().getClass()));
         logger.info(user.getFeatures().toString());
-      //  byte[] byteArray=user.getFeatures();
-        user.setFeatures(Arrays.stream(user.getFeatures()).toArray());
-        user.setAccessId(Arrays.stream(user.getAccessId()).toArray());
  //       logger.info(String.va(user.setAccessId(Arrays.stream(user.getAccessId()).toArray())));
         //logger.info(user.getFeatures())
 //        if(isValidToken(ID,token)) {

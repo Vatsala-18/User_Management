@@ -133,9 +133,9 @@ public class AccountController {
 //            acc.setFeatures((HashMap<String, String>) params.get("features"));
 //            acc.setFeaturesMeta((HashMap<String, String>) params.get("featuresMeta"));
 //            acc.setAccessId((HashMap<String, String>) params.get("accessId"));
-            acc.setFeatures((int[]) params.get("features"));
+            acc.setFeatures((Integer[]) params.get("features"));
             //       acc.setFeaturesMeta(params.get("featuresMeta").toString());
-            acc.setAccessId((int[]) params.get("accessId"));
+            acc.setAccessId((Integer[]) params.get("accessId"));
 
             acc.setExpDate((String) params.get("expDate"));
 
@@ -153,9 +153,9 @@ public class AccountController {
 //            user.setAccessId((HashMap<String, String>) params.get("accessId2"));
 
 
-            user.setFeatures((int[]) params.get("features2"));
+            user.setFeatures((Integer[]) params.get("features2"));
             //        user.setFeaturesMeta(params.get("featuresMeta2").toString());
-            user.setAccessId((int[]) params.get("accessId2"));
+            user.setAccessId((Integer[])params.get("accessId2"));
 
             accountService.createAccount(acc);
             userService.createUser(user);

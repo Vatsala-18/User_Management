@@ -62,11 +62,14 @@ public class UserEntity implements Serializable {
     @Type(type="com.openvidu_databases.openvidu_dbbackend.Utils.MapType")
     private HashMap<String, String> session = new HashMap<String, String>(0);
 
-    @Column(name = "features")
-    private int[] features;
-
-    @Column(name = "access_id")
-    private int[] accessId;
+    @Column(name = "features",columnDefinition = "integer[]")
+   // @Type(type = "packageofclass.GenericArrayUserType")
+    @Type(type="com.openvidu_databases.openvidu_dbbackend.Utils.GenericArrayUserType")
+    private Integer[] features;
+    @Column(name = "access_id",columnDefinition = "integer[]")
+   // @Type(type = "packageofclass.GenericArrayUserType")
+    @Type(type="com.openvidu_databases.openvidu_dbbackend.Utils.GenericArrayUserType")
+    private Integer[] accessId;
 //    @Column(name="features",columnDefinition="text")
 //    @Type(type="com.openvidu_databases.openvidu_dbbackend.Utils.MapType")
 //    private HashMap<String, String> features = new HashMap<String, String>(0);
@@ -171,11 +174,11 @@ public class UserEntity implements Serializable {
     }
 //
 
-    public int[] getFeatures() {
+    public Integer[] getFeatures() {
         return features;
     }
 
-    public void setFeatures(int[] features) {
+    public void setFeatures(Integer[] features) {
         this.features = features;
     }
 
@@ -187,11 +190,11 @@ public class UserEntity implements Serializable {
 //        this.featuresMeta = featuresMeta;
 //    }
 
-    public int[] getAccessId() {
+    public Integer[] getAccessId() {
         return accessId;
     }
 
-    public void setAccessId(int[] accessId) {
+    public void setAccessId(Integer[] accessId) {
         this.accessId = accessId;
     }
 
