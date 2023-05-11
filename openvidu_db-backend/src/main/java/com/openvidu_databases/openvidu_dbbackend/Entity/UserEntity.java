@@ -23,7 +23,7 @@ public class UserEntity implements Serializable {
 
     //    private static final long serialVersionUID=810972626450090362960L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+ //   @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "user_id")
     private int userId;
 
@@ -33,7 +33,7 @@ public class UserEntity implements Serializable {
     @Column(name = "login_id", unique = true)
     private String loginId;
 
-    @Lob
+   // @Lob
     @Column(name = "password")
     private String password;
 
@@ -49,32 +49,31 @@ public class UserEntity implements Serializable {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "user_type")
-    private String userType;
-
     @Column(name = "creation_date")
     private String creationDate;
 
     @Column(name = "last_login")
     private String lastLogin;
 
+    @Column(name = "exp_date")
+    private String expDate;
+
     @Column(name="session",columnDefinition="text")
     @Type(type="com.openvidu_databases.openvidu_dbbackend.Utils.MapType")
     private HashMap<String, String> session = new HashMap<String, String>(0);
 
     @Column(name = "features")
-    private String features;
-    @Column(name = "features_meta")
-    private String featuresMeta;
+    private int[] features;
+
     @Column(name = "access_id")
-    private String accessId;
+    private int[] accessId;
 //    @Column(name="features",columnDefinition="text")
 //    @Type(type="com.openvidu_databases.openvidu_dbbackend.Utils.MapType")
 //    private HashMap<String, String> features = new HashMap<String, String>(0);
 //
-//    @Column(name="features_meta",columnDefinition="text")
-//    @Type(type="com.openvidu_databases.openvidu_dbbackend.Utils.MapType")
-//    private HashMap<String, String> featuresMeta = new HashMap<String, String>(0);
+    @Column(name="features_meta",columnDefinition="text")
+    @Type(type="com.openvidu_databases.openvidu_dbbackend.Utils.MapType")
+    private HashMap<String, String> featuresMeta = new HashMap<String, String>(0);
 //
 //    @Column(name="access_id",columnDefinition="text")
 //    @Type(type="com.openvidu_databases.openvidu_dbbackend.Utils.MapType")
@@ -147,14 +146,6 @@ public class UserEntity implements Serializable {
         this.email = email;
     }
 
-    public String getUserType() {
-        return userType;
-    }
-
-    public void setUserType(String userType) {
-        this.userType = userType;
-    }
-
     public String getCreationDate() {
         return creationDate;
     }
@@ -180,41 +171,42 @@ public class UserEntity implements Serializable {
     }
 //
 
-    public String getFeatures() {
+    public int[] getFeatures() {
         return features;
     }
 
-    public void setFeatures(String features) {
+    public void setFeatures(int[] features) {
         this.features = features;
     }
 
-    public String getFeaturesMeta() {
-        return featuresMeta;
-    }
-
-    public void setFeaturesMeta(String featuresMeta) {
-        this.featuresMeta = featuresMeta;
-    }
-
-    public String getAccessId() {
-        return accessId;
-    }
-
-    public void setAccessId(String accessId) {
-        this.accessId = accessId;
-    }
-//    public HashMap<String, String> getFeaturesMeta() {
+//    public String getFeaturesMeta() {
 //        return featuresMeta;
 //    }
 //
-//    public void setFeaturesMeta(HashMap<String, String> featuresMeta) {
+//    public void setFeaturesMeta(String featuresMeta) {
 //        this.featuresMeta = featuresMeta;
 //    }
-//
+
+    public int[] getAccessId() {
+        return accessId;
+    }
+
+    public void setAccessId(int[] accessId) {
+        this.accessId = accessId;
+    }
+
+    public HashMap<String, String> getFeaturesMeta() {
+        return featuresMeta;
+    }
+
+    public void setFeaturesMeta(HashMap<String, String> featuresMeta) {
+        this.featuresMeta = featuresMeta;
+    }
+
 //    public HashMap<String, String> getFeatures() {
 //        return features;
 //    }
-//
+
 //    public void setFeatures(HashMap<String, String> features) {
 //        this.features = features;
 //    }
@@ -246,9 +238,9 @@ public class UserEntity implements Serializable {
                 ", lname='" + lname + '\'' +
                 ", mobile='" + contact + '\'' +
                 ", email='" + email + '\'' +
-                ", userType='" + userType + '\'' +
                 ", creationDate='" + creationDate + '\'' +
                 ", lastLogin='" + lastLogin + '\'' +
+                ", expDate='" + expDate + '\'' +
                 ", session=" + session +
                 ", features='" + features + '\'' +
                 ", featuresMeta=" + featuresMeta +

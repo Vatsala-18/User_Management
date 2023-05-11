@@ -99,20 +99,26 @@ public class UserController {
     @PostMapping("/create")
     public ResponseEntity<UserEntity> createUser(@RequestBody UserEntity user, HttpServletRequest request, HttpServletResponse response) {
         //logger.info(getHeaders(request).toString());
-        //logger.info(String.valueOf(user));
+        logger.info(String.valueOf(user));
         String ID = request.getHeader("id");
         String token = request.getHeader("token");
         UserEntity u = userRepository.findByUserId(ID);
-
-        if(isValidToken(ID,token)) {
+        logger.info(String.valueOf(user.getFeatures().getClass()));
+        logger.info(user.getFeatures().toString());
+      //  byte[] byteArray=user.getFeatures();
+        user.setFeatures(Arrays.stream(user.getFeatures()).toArray());
+        user.setAccessId(Arrays.stream(user.getAccessId()).toArray());
+ //       logger.info(String.va(user.setAccessId(Arrays.stream(user.getAccessId()).toArray())));
+        //logger.info(user.getFeatures())
+//        if(isValidToken(ID,token)) {
             String creation = LocalDateTime.now().format(formatter);
             user.setCreationDate(creation);
             String mypass = passwordEncoder.encode(user.getPassword());
             user.setPassword(mypass);
               return ResponseEntity.ok(userService.createUser(user));
-            }
+ //           }
 
-            return  new ResponseEntity<UserEntity>(HttpStatus.UNAUTHORIZED);
+//            return  new ResponseEntity<UserEntity>(HttpStatus.UNAUTHORIZED);
 
     }
 
@@ -155,7 +161,6 @@ public class UserController {
         if (user1 != null && passwordEncoder.matches(password,user1.getPassword()) && user1.getLoginId().equals(id)) {
             if(isValidTokenLogin(id)){
                 HashMap<String,String> response=new HashMap<>();
-                response.put("user_type",user1.getUserType());
                 response.put("token",user.getToken());
                 response.put("user_data",user1.toString());
                 userRepository.setLastLogin(id);
@@ -186,7 +191,6 @@ public class UserController {
 
                     userAuthRepository.save(ua);
                     Map<String,String> res = new HashMap<>();
-                    res.put("user_type",user1.getUserType());
                     res.put("token",token);
                     res.put("user_data",user1.toString());
                     return new ResponseEntity<>(res, HttpStatus.OK);

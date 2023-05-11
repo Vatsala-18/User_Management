@@ -11,11 +11,10 @@ import java.util.HashMap;
 @Entity
 @EntityScan
 @Data
-@Table(name = "account_master")
+@Table(name = "account_data")
 public class AccountEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "account_id")
     private int accountId;
 
@@ -37,21 +36,19 @@ public class AccountEntity {
     @Column(name = "max_user")
     private int maxUser;
 
-    @Column(name="use_cases",columnDefinition="text")
-    @Type(type="com.openvidu_databases.openvidu_dbbackend.Utils.MapType")
-    private HashMap<String, String> useCases = new HashMap<String, String>(0);
-
-
     @Column(name="session",columnDefinition="text")
     @Type(type="com.openvidu_databases.openvidu_dbbackend.Utils.MapType")
     private HashMap<String, String> session = new HashMap<String, String>(0);
 
     @Column(name = "features")
-    private String features;
-    @Column(name = "features_meta")
-    private String featuresMeta;
+    private int[] features;
+
+    @Column(name="features_meta",columnDefinition="text")
+    @Type(type="com.openvidu_databases.openvidu_dbbackend.Utils.MapType")
+    private HashMap<String, String> featuresMeta = new HashMap<String, String>(0);
+
     @Column(name = "access_id")
-    private String accessId;
+    private int[] accessId;
 //    @Column(name="features",columnDefinition="text")
 //    @Type(type="com.openvidu_databases.openvidu_dbbackend.Utils.MapType")
 //    private HashMap<String, String> features = new HashMap<String, String>(0);
@@ -126,14 +123,6 @@ public class AccountEntity {
         this.maxUser = maxUser;
     }
 
-    public HashMap<String, String> getUseCases() {
-        return useCases;
-    }
-
-    public void setUseCases(HashMap<String, String> useCases) {
-        this.useCases = useCases;
-    }
-
     public HashMap<String, String> getSession() {
         return session;
     }
@@ -142,27 +131,27 @@ public class AccountEntity {
         this.session = session;
     }
 
-    public String getFeatures() {
+    public int[] getFeatures() {
         return features;
     }
 
-    public void setFeatures(String features) {
+    public void setFeatures(int[] features) {
         this.features = features;
     }
 
-    public String getFeaturesMeta() {
+    public HashMap<String, String> getFeaturesMeta() {
         return featuresMeta;
     }
 
-    public void setFeaturesMeta(String featuresMeta) {
+    public void setFeaturesMeta(HashMap<String, String> featuresMeta) {
         this.featuresMeta = featuresMeta;
     }
 
-    public String getAccessId() {
+    public int[] getAccessId() {
         return accessId;
     }
 
-    public void setAccessId(String accessId) {
+    public void setAccessId(int[] accessId) {
         this.accessId = accessId;
     }
 //    public HashMap<String, String> getFeatures() {
@@ -215,7 +204,6 @@ public class AccountEntity {
                 ", creationDate='" + creationDate + '\'' +
                 ", maxAdmin='" + maxAdmin + '\'' +
                 ", maxUser='" + maxUser + '\'' +
-                ", useCases=" + useCases +
                 ", session=" + session +
                 ", features=" + features +
                 ", featuresMeta=" + featuresMeta +

@@ -1,8 +1,10 @@
 package com.openvidu_databases.openvidu_dbbackend.Controller;
 
+//import com.openvidu_databases.openvidu_dbbackend.Entity.AccountAuthEntity;
 import com.openvidu_databases.openvidu_dbbackend.Entity.AccountEntity;
 import com.openvidu_databases.openvidu_dbbackend.Entity.UserAuthEntity;
 import com.openvidu_databases.openvidu_dbbackend.Entity.UserEntity;
+//import com.openvidu_databases.openvidu_dbbackend.Repository.AccountAuthRepository;
 import com.openvidu_databases.openvidu_dbbackend.Repository.AccountRepository;
 import com.openvidu_databases.openvidu_dbbackend.Repository.UserAuthRepository;
 import com.openvidu_databases.openvidu_dbbackend.Repository.UserRepository;
@@ -36,6 +38,12 @@ public class AccountController {
     @Autowired
     private  AccountRepository accountRepository;
 
+//    @Autowired
+//    private AccountAuthEntity accountAuthEntity;
+//
+//    @Autowired
+//    private AccountAuthRepository accountAuthRepository;
+
     @Autowired
     private UserService userService;
 
@@ -64,25 +72,25 @@ public class AccountController {
         logger.info(request.getHeader("token"));
         String id = request.getHeader("id");
         String token = request.getHeader("token");
-        if (isValidToken(id,token)) {
+  //      if (isValidToken(id,token)) {
             return ResponseEntity.ok(accountService.getAllAccounts());
-        }
-        else {
-            return  new ResponseEntity<List<AccountEntity>>(HttpStatus.UNAUTHORIZED);
-        }
+//        }
+//        else {
+//            return  new ResponseEntity<List<AccountEntity>>(HttpStatus.UNAUTHORIZED);
+      //  }
     }
     @GetMapping("/getById/{id}")
     public ResponseEntity<AccountEntity> getAccountById(@PathVariable String id, HttpServletRequest request) {
 
         String ID = request.getHeader("id");
         String token = request.getHeader("token");
-        if (isValidToken(ID,token)) {
-            logger.info(String.valueOf(userService.getUserById(id)));
-            return ResponseEntity.ok(accountService.getAccountById(id));
-        }
-        else{
-            return  new ResponseEntity<AccountEntity>(HttpStatus.UNAUTHORIZED);
-        }
+//        if (isValidToken(ID,token)) {
+//            logger.info(String.valueOf(userService.getUserById(id)));
+          return ResponseEntity.ok(accountService.getAccountById(id));
+//        }
+//        else{
+//            return  new ResponseEntity<AccountEntity>(HttpStatus.UNAUTHORIZED);
+//        }
     }
 
   /*  @PostMapping("/create")
@@ -109,7 +117,7 @@ public class AccountController {
         String ID = request.getHeader("id");
         String token = request.getHeader("token");
 
-        if(isValidToken(ID,token)) {
+        //if(isValidToken(ID,token)) {
 
             String creation = LocalDateTime.now().format(formatter);
             AccountEntity acc = new AccountEntity();
@@ -125,9 +133,9 @@ public class AccountController {
 //            acc.setFeatures((HashMap<String, String>) params.get("features"));
 //            acc.setFeaturesMeta((HashMap<String, String>) params.get("featuresMeta"));
 //            acc.setAccessId((HashMap<String, String>) params.get("accessId"));
-            acc.setFeatures((params.get("features").toString()));
+            acc.setFeatures((int[]) params.get("features"));
             //       acc.setFeaturesMeta(params.get("featuresMeta").toString());
-            acc.setAccessId(params.get("accessId").toString());
+            acc.setAccessId((int[]) params.get("accessId"));
 
             acc.setExpDate((String) params.get("expDate"));
 
@@ -138,7 +146,6 @@ public class AccountController {
             user.setPassword(mypass);
             user.setContact(params.get("contact").toString());
             user.setEmail(params.get("email").toString());
-            user.setUserType(params.get("userType").toString());
             user.setCreationDate(creation);
             user.setSession((HashMap<String, String>) params.get("session2"));
 //            user.setFeatures((HashMap<String, String>) params.get("features2"));
@@ -146,39 +153,54 @@ public class AccountController {
 //            user.setAccessId((HashMap<String, String>) params.get("accessId2"));
 
 
-            user.setFeatures((params.get("features2").toString()));
+            user.setFeatures((int[]) params.get("features2"));
             //        user.setFeaturesMeta(params.get("featuresMeta2").toString());
-            user.setAccessId(params.get("accessId2").toString());
+            user.setAccessId((int[]) params.get("accessId2"));
 
             accountService.createAccount(acc);
             userService.createUser(user);
 
+//            AccountAuthEntity auth = new AccountAuthEntity();
+//            auth.setAccountId(acc.getAccountId());
+//            auth.setName(acc.getName());
+//            auth.setAuthKey(generatedKey(acc.getAccountId()));
+//            auth.setCreationDate(LocalDateTime.now());
+//            auth.setExpDate(LocalDateTime.parse((acc.getExpDate())));
+//
+//            accountAuthRepository.save(auth);
+
             return new ResponseEntity<>("Account Created",HttpStatus.CREATED);
-        }
-
-        return  new ResponseEntity<>("Unauthorised User",HttpStatus.UNAUTHORIZED);
+//        }
+//
+//        return  new ResponseEntity<>("Unauthorised User",HttpStatus.UNAUTHORIZED);
 
     }
 
+//    private String generatedKey(int accountId){
+//        String key = "Account"+generateKey(accountId)+accountId;
+//        logger.info("AccountAuthKey : "+key);
+//        logger.info("Unique Authorization key generated...!");
+//        return key;
+//    }
 
-    private String generateToken(String userId) {
-        return Jwts.builder()
-                .setSubject(userId)
-                .setIssuedAt(new Date())
-                .setExpiration(new java.sql.Date(System.currentTimeMillis() + 86400000))
-                .signWith(SignatureAlgorithm.HS256, secret)
-                .compact();
-    }
+//    private String generateKey(int accountId) {
+//        return Jwts.builder()
+//                .setSubject(String.valueOf(accountId))
+//                .setIssuedAt(new Date())
+//                .setExpiration(new java.sql.Date(System.currentTimeMillis() + 86400000))
+//                .signWith(SignatureAlgorithm.HS256, "accountsecret")
+//                .compact();
+//    }
 
-    public Boolean isValidToken(String id,String token){
-        UserAuthEntity user = userAuthRepository.findById(id);
-        //logger.info(token);
-        //logger.info(user.getToken());
-        String t = (user.getToken());
-        if(user == null || user.getExpDate().isBefore(LocalDateTime.now()) || token == null || !(t.equals(token)))
-            return false;
-        return true;
-    }
+//    public Boolean isValidAuthKey(int id,String token){
+//        AccountAuthEntity acc = accountAuthRepository.findById(id);
+//        //logger.info(token);
+//        //logger.info(user.getToken());
+//        String key = (acc.getAuthKey());
+//        if(acc == null || acc.getExpDate().isBefore(LocalDateTime.now()) || token == null || !(key.equals(token)))
+//            return false;
+//        return true;
+//    }
 
     private Map<String, String> getHeaders(HttpServletRequest request) {
         Enumeration<String> headers = request.getHeaderNames();
